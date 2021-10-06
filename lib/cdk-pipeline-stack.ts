@@ -99,28 +99,6 @@ export class CdkPipelineStack extends cdk.Stack {
     });
     cdksecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'allow ssh')
     cdksecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'allow web pages')
-    
-    // const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
-    //   vpc: cdkvpc,
-    //   securityGroupName: "RDS-SG",
-    //   description: "Access RDS DB",
-    //   allowAllOutbound: true
-    // });
-    // rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
-
-    // const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
-    //   engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
-    //   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
-    //   credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
-    //   databaseName:'ramRDSDB',
-    //   vpc: cdkvpc,
-    //   vpcSubnets: {
-    //   subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
-    //   },
-    //   instanceIdentifier:'RamRDS',  
-    //   securityGroups: [rdsSG],
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
-    // });
 
     const userData = ec2.UserData.forLinux({ shebang: "#!/bin/bash -ex" });
     userData.addCommands("yum install -y aws-cli", "yum install -y git", "cd /home/ec2-user/", "wget https://aws-codedeploy-" + cdk.Aws.REGION + ".s3.amazonaws.com/latest/codedeploy-agent.noarch.rpm", "yum -y install codedeploy-agent.noarch.rpm", "service codedeploy-agent start");
@@ -173,6 +151,28 @@ export class CdkPipelineStack extends cdk.Stack {
       role: role,
       keyName: 'Iam'
     });
+
+    // const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
+    //   vpc: cdkvpc,
+    //   securityGroupName: "RDS-SG",
+    //   description: "Access RDS DB",
+    //   allowAllOutbound: true
+    // });
+    // rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
+
+    // const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
+    //   engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
+    //   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
+    //   credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
+    //   databaseName:'ramRDSDB',
+    //   vpc: cdkvpc,
+    //   vpcSubnets: {
+    //   subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
+    //   },
+    //   instanceIdentifier:'RamRDS',  
+    //   securityGroups: [rdsSG],
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
+    // });
 
     // The code that defines your stack goes here
   }
