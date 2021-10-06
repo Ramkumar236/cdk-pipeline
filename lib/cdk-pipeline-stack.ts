@@ -74,12 +74,12 @@ export class CdkPipelineStack extends cdk.Stack {
         name: 'Private',
         subnetType:ec2.SubnetType.PRIVATE_WITH_NAT,
       },
-      // {
-      //   cidrMask: 28,
-      //   name: "DBPrivate",
-      //   subnetType:ec2.SubnetType.PRIVATE_WITH_NAT,
-      //   reserved : true
-      // }
+      {
+        cidrMask: 28,
+        name: "DBPrivate",
+        subnetType:ec2.SubnetType.PRIVATE_WITH_NAT,
+        reserved : true
+      }
     ]
     })
     const igwID = cdkvpc.internetGatewayId;
