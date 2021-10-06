@@ -6,7 +6,7 @@ import * as rds from '@aws-cdk/aws-rds'
 
 
 export class CdkPipelineStack extends cdk.Stack {
-  constructor(scope: any, id: any, props: any) {
+  constructor(scope: any, id: any, props?: any) {
     super(scope, id, props);
 
 
@@ -56,8 +56,8 @@ export class CdkPipelineStack extends cdk.Stack {
             resources: ["*"]
         }),
     ],
-      roles: [
-          role
+    roles: [
+        role
     ]
 });
 
