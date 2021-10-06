@@ -152,27 +152,27 @@ export class CdkPipelineStack extends cdk.Stack {
       keyName: 'Iam'
     });
 
-    // const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
-    //   vpc: cdkvpc,
-    //   securityGroupName: "RDS-SG",
-    //   description: "Access RDS DB",
-    //   allowAllOutbound: true
-    // });
-    // rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
+    const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
+      vpc: cdkvpc,
+      securityGroupName: "RDS-SG",
+      description: "Access RDS DB",
+      allowAllOutbound: true
+    });
+    rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
 
-    // const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
-    //   engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
-    //   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
-    //   credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
-    //   databaseName:'ramRDSDB',
-    //   vpc: cdkvpc,
-    //   vpcSubnets: {
-    //   subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
-    //   },
-    //   instanceIdentifier:'RamRDS',  
-    //   securityGroups: [rdsSG],
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
-    // });
+    const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
+      engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
+      credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
+      databaseName:'ramRDSDB',
+      vpc: cdkvpc,
+      vpcSubnets: {
+      subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
+      },
+      instanceIdentifier:'RamRDS',  
+      securityGroups: [rdsSG],
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
 
     // The code that defines your stack goes here
   }
