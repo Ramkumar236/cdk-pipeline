@@ -2,7 +2,7 @@ const cdk = require("@aws-cdk/core");
 const ec2 = require("@aws-cdk/aws-ec2");
 const iam = require("@aws-cdk/aws-iam");
 const s3 = require("@aws-cdk/aws-s3");
-const rds = require('@aws-cdk/aws-rds');
+// const rds = require('@aws-cdk/aws-rds');
 
 
 export class CdkPipelineStack extends cdk.Stack {
@@ -160,19 +160,19 @@ export class CdkPipelineStack extends cdk.Stack {
     });
     rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
 
-    const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
-      engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
-      credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
-      databaseName:'ramRDSDB',
-      vpc: cdkvpc,
-      vpcSubnets: {
-      subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
-      },
-      instanceIdentifier:'RamRDS',  
-      securityGroups: [rdsSG],
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-    });
+    // const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
+    //   engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
+    //   instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
+    //   credentials: rds.Credentials.fromGeneratedSecret('syscdk'), // Optional - will default to 'admin' username and generated password
+    //   databaseName:'ramRDSDB',
+    //   vpc: cdkvpc,
+    //   vpcSubnets: {
+    //   subnetType: ec2.SubnetType.PRIVATE_WITH_NAT
+    //   },
+    //   instanceIdentifier:'RamRDS',  
+    //   securityGroups: [rdsSG],
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
+    // });
 
     // The code that defines your stack goes here
   }
