@@ -40,7 +40,8 @@ phases:
   build:
     commands:
       - cdk deploy
-    cdk_subcommand: "deploy --require-approval never"
+      - y
+    #cdk_subcommand: "deploy --require-approval never"
       # - command
       # - command
   #post_build:
