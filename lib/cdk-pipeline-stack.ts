@@ -85,7 +85,7 @@ export class CdkPipelineStack extends cdk.Stack {
     const igwID = cdkvpc.internetGatewayId;
     // Bucket Creation.
     new s3.Bucket(this, 'Ram-Bucket-1',{
-      bucketName: 'ram010111',
+      bucketName: 'ram01011112',
       versioned: true,
       encryption: s3.BucketEncryption.KMS_MANAGED,
       removalPolicy: cdk.RemovalPolicy.DESTROY
