@@ -2,7 +2,7 @@ const cdk = require("@aws-cdk/core");
 const ec2 = require("@aws-cdk/aws-ec2");
 const iam = require("@aws-cdk/aws-iam");
 const s3 = require("@aws-cdk/aws-s3");
-import * as rds from '@aws-cdk/aws-rds'
+const rds = require('@aws-cdk/aws-rds');
 
 
 export class CdkPipelineStack extends cdk.Stack {
