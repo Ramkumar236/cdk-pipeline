@@ -152,13 +152,13 @@ export class CdkPipelineStack extends cdk.Stack {
       keyName: 'Iam'
     });
 
-    // const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
-    //   vpc: cdkvpc,
-    //   securityGroupName: "RDS-SG",
-    //   description: "Access RDS DB",
-    //   allowAllOutbound: true
-    // });
-    // rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
+    const rdsSG = new ec2.SecurityGroup(this, 'rds-sg',{
+      vpc: cdkvpc,
+      securityGroupName: "RDS-SG",
+      description: "Access RDS DB",
+      allowAllOutbound: true
+    });
+    rdsSG.addIngressRule(ec2.Peer.ipv4(cdkvpc.vpcCidrBlock), ec2.Port.tcp(3306), 'Allow RDS_DB')
 
     // const rdsInstance = new rds.DatabaseInstance(this, 'RamRDScd', {
     //   engine: rds.DatabaseInstanceEngine.mysql({ version:rds.MysqlEngineVersion.VER_8_0_25 }),
