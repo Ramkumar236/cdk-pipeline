@@ -35,7 +35,7 @@ phases:
       # - command
   build:
     commands:
-      - cdk destroy --require-approval "never"
+      - cdk destroy
     #cdk_subcommand: "deploy --require-approval never"
       # - command
       # - command
