@@ -7,58 +7,7 @@ const rds = require('@aws-cdk/aws-rds');
 
 export class CdkPipelineStack extends cdk.Stack {
   constructor(scope: any, id: any, props?: any) {
-    super(scope, id, props);
-
-    const buildRole = new iam.Role(this, "CodeBuildRole", {
-      assumedBy: new iam.ServicePrincipal('codebuild.amazonaws.com'),
-    });
-    new iam.Policy(this, "CodeBuildRolePolicy", {
-      statements: [
-          new iam.PolicyStatement({
-              actions: [
-                  "codecommit:GitPull",
-                  "logs:CreateLogGroup",
-                  "logs:CreateLogStream",
-                  "logs:PutLogEvents",
-                  "s3:GetObject",
-                  "s3:GetObjectVersion",
-                  "s3:PutObject",
-                  "ssm:GetParameters"
-              ],
-              resources: ["*"]
-          }),
-      ],
-      roles: [
-          buildRole
-      ]
-    });
-    const deployRole = new iam.Role(this, "CodeDeployRole", {
-      assumedBy: new iam.ServicePrincipal('codedeploy.amazonaws.com'),
-      managedPolicies: [
-          iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSCodeDeployRole"),
-      ]
-    });
-
-    const role = new iam.Role(this, "WebAppInstanceRole", {
-    assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-    managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AWSCodeDeployReadOnlyAccess"),
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2ReadOnlyAccess")
-      ]
-    });
-    new iam.Policy(this, "DeploymentInstancePolicy", {
-    statements: [
-        new iam.PolicyStatement({
-            actions: [
-                "s3:GetObject",
-            ],
-            resources: ["*"]
-        }),
-      ],
-      roles: [
-        role
-      ]
-    });
+    super(scope, id, props);     
 
     const cdkvpc = new ec2.Vpc(this, 'RAM-Vpc-1',{
       cidr: '10.0.0.0/16',
@@ -112,7 +61,6 @@ export class CdkPipelineStack extends cdk.Stack {
       securityGroup: cdksecurityGroup,
       userData: userData,
       instanceName: "Dev-Instance",
-      role: role,
       keyName: 'Iam',
       
     });
@@ -130,7 +78,6 @@ export class CdkPipelineStack extends cdk.Stack {
       securityGroup: cdksecurityGroup,
       userData: userData,
       instanceName: "Prod-Instance",
-      role: role,
       keyName: 'Iam',
     });
     cdk.Tag.add(prodInstance, "Name", "Prod-Instance");
@@ -147,7 +94,6 @@ export class CdkPipelineStack extends cdk.Stack {
       securityGroup: cdksecurityGroup,
       userData: userData,
       instanceName: 'Private-Instance',
-      role: role,
       keyName: 'Iam'
     });
 
